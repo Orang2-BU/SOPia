@@ -1,6 +1,6 @@
 # Task Implementasi Prototype SOPia
 
-Rencana: [PLAN.md](PLAN.md). Semua checkbox masih terbuka karena implementasi belum dimulai.
+Rencana: [PLAN.md](PLAN.md). Checkbox menandai pekerjaan yang telah diimplementasikan dan divalidasi; task deployment/live tetap terbuka sampai ada bukti runtime.
 
 Urutan: M0 -> M1 -> M2 -> integrasi M3 -> M4 -> M5. Frontend dan upload dapat berjalan bersamaan setelah kontrak disepakati. Satu task dicentang setelah hasilnya memenuhi kriteria milestone, bukan hanya setelah file dibuat.
 
@@ -79,11 +79,11 @@ Selesai jika: dua alur dapat diselesaikan lewat UI live dan refresh tidak menghi
 
 PIC: Yassir, Dewa, Lucky. Prioritas: P0. Dependensi: integrasi M1–M3.
 
-- [ ] T44 — Pastikan akses GitHub/Vercel untuk deployment; review file yang akan masuk repo agar tidak menyertakan secret atau data lokal.
+- [ ] T44 — Pastikan akses Vercel untuk deployment; akses GitHub tersedia dan file sudah direview agar tidak menyertakan secret atau data lokal.
 - [x] T45 — Jalankan pemeriksaan backend dan build frontend; perbaiki kegagalan yang menghambat rilis.
 - [ ] T46 — Siapkan komputer demo, volume SQLite/Qdrant, model embedding/LLM, dan seed SOP; verifikasi health layanan.
 - [ ] T47 — Jalankan tunnel HTTPS ke FastAPI; uji health dan satu request chat dari jaringan luar.
-- [ ] T48 — Commit/push implementasi sesuai workflow repo; konfigurasi workflow GitHub Pages pada repo `Orang2-BU/SOPia`.
+- [ ] T48 — Aktifkan jalur deployment yang didukung (Vercel atau Pages); implementasi dan workflow Pages sudah di-push, tetapi Pages ditolak untuk repo privat pada plan saat ini.
 - [ ] T49 — Atur `NEXT_PUBLIC_API_BASE_URL` ke URL tunnel; simpan key Jev/Groq hanya di backend, lalu set CORS untuk origin frontend.
 - [ ] T50 — Deploy frontend dan catat URL aktual serta commit rilis; verifikasi respons HTTPS dan aset halaman.
 - [ ] T51 — Jalankan chat -> plan -> execute -> approve -> audit dari URL Vercel pada perangkat lain.
@@ -99,7 +99,7 @@ Task ini bersifat kondisional; tidak wajib diselesaikan bila jalur Vercel berhas
 
 - [ ] G01 — Konfigurasikan Next.js static export, base path `/SOPia`, aset/gambar, dan API base URL saat build; pastikan fitur frontend kompatibel dengan export.
 - [ ] G02 — Buat workflow GitHub Actions untuk build dan deploy `web/out` ke Pages.
-- [ ] G03 — Aktifkan Pages, tambah origin ke CORS backend, dan verifikasi URL deployment aktual.
+- [ ] G03 — Aktifkan Pages, tambah origin ke CORS backend, dan verifikasi URL deployment aktual. Percobaan aktivasi ditolak plan GitHub untuk repo privat.
 - [ ] G04 — Uji aset, navigasi, refresh, dua alur live, dan backend offline; tulis keterbatasan backend/tunnel yang sama seperti jalur Vercel.
 
 ## M5 — Validasi dan bukti demo
@@ -112,7 +112,7 @@ PIC: Lucky dan seluruh tim. Prioritas: P0. Dependensi: M4.
 - [ ] T58 — Catat hasil aktual di `docs/test-results.md`, termasuk kualitas jawaban dan sitasi secara terpisah; target minimal 8/10 tepat dan seluruh aturan kritis lulus.
 - [ ] T59 — Ambil screenshot chat/sitasi, checklist, kartu approval, upload, dan audit; simpan di `docs/evidence/`.
 - [ ] T60 — Rekam video dua alur dengan backend aktif dan siapkan skrip demo yang dapat diulang.
-- [ ] T61 — Lengkapi README dengan setup, konfigurasi, arsitektur, URL deployment, cara menjalankan demo, dan keterbatasan prototype.
+- [x] T61 — Lengkapi README dengan setup, konfigurasi, arsitektur, status URL deployment, cara menjalankan demo, dan keterbatasan prototype. URL publik belum tersedia.
 - [ ] T62 — Cocokkan seluruh hasil dengan kriteria selesai `PLAN.md`; catat isu tersisa dan pastikan tidak ada kegagalan kritis terbuka.
 
 Selesai jika: prototype memenuhi dua alur, bukti dapat diperiksa, dan orang lain dapat mengulangi demo menggunakan panduan.
