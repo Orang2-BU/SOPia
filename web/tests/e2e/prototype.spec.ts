@@ -29,6 +29,8 @@ test("Pages chat completes an approval workflow and exposes audit trail", async 
   await page.getByRole("button", { name: "Setujui" }).click();
   await expect(page.getByText("Selesai").first()).toBeVisible();
 
+  await page.reload();
+  await expect(page.getByText("Selesai").first()).toBeVisible();
   await page.getByRole("button", { name: "Jejak audit" }).click();
   await expect(page.getByText("Riwayat proses")).toBeVisible();
   await expect(page.getByText(/approval_decided/)).toBeVisible();
@@ -61,7 +63,7 @@ test("mobile layout keeps SOP navigation available without horizontal overflow",
   await page.goto("./");
   await expect(page.getByRole("navigation", { name: "Navigasi utama seluler" })).toBeVisible();
   await page.getByRole("button", { name: "Dokumen SOP" }).last().click();
-  await expect(page.getByRole("heading", { name: "Dokumen SOP" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Dokumen SOP", exact: true })).toBeVisible();
   const dimensions = await page.evaluate(() => ({
     documentWidth: document.documentElement.scrollWidth,
     viewportWidth: window.innerWidth,
