@@ -1,0 +1,124 @@
+:root {
+  --navy: #3b3bd4;
+  --navy-deep: #2929a8;
+  --blue: #3b3bd4;
+  --green: #147a58;
+  --green-soft: #e7fff3;
+  --ink: #1a1a2e;
+  --muted: #626278;
+  --line: #e7e7ec;
+  --canvas: #fafaf7;
+  --mint: #6ff2b8;
+  --mint-soft: #e7fff3;
+  --indigo-soft: #efeffd;
+  --shadow: 0 8px 24px rgba(26, 26, 46, 0.045);
+}
+
+html,
+body {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.brand,
+.mobile-brand,
+.chat-heading h1,
+.page-title h1,
+.card-heading h2,
+.upload-panel h2,
+.documents-head h2,
+.audit-head h2 {
+  font-family: "Plus Jakarta Sans", "DM Sans", sans-serif;
+}
+
+.brand-mark {
+  position: relative;
+  background: var(--navy);
+  color: var(--mint);
+}
+
+.brand-mark::after {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 7px;
+  height: 9px;
+  border: 1px solid var(--navy);
+  border-radius: 1px;
+  background: var(--mint);
+  content: "";
+}
+
+.nav-item.active,
+.assistant-avatar,
+.mini-avatar {
+  background: var(--indigo-soft);
+  color: var(--navy);
+}
+
+.nav-item.active {
+  box-shadow: inset 3px 0 var(--navy);
+}
+
+.sidebar-note,
+.shield,
+.user-avatar,
+.citation-icon,
+.upload-symbol,
+.doc-icon,
+.audit-mark {
+  background: var(--mint-soft);
+}
+
+.shield,
+.citation-icon,
+.upload-symbol,
+.doc-icon,
+.audit-mark {
+  color: var(--green);
+}
+
+.send-btn,
+.primary-btn,
+.run-btn,
+.approve-btn {
+  background: var(--navy);
+}
+
+.send-btn:hover:not(:disabled),
+.primary-btn:hover:not(:disabled),
+.run-btn:hover:not(:disabled),
+.approve-btn:hover:not(:disabled) {
+  background: var(--navy-deep);
+}
+
+.eyebrow {
+  color: var(--navy);
+}
+
+.connection.live i,
+.indexed i {
+  background: var(--green);
+}
+
+.composer:focus-within {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px var(--indigo-soft);
+}
+
+button:focus-visible,
+a:focus-visible,
+textarea:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline-color: var(--navy);
+}
+
+@media (max-width: 560px) {
+  .brand-mark::after {
+    top: 5px;
+    right: 5px;
+    width: 6px;
+    height: 8px;
+  }
+}

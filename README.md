@@ -1,30 +1,55 @@
-# SOPia Prototype
+# SOPia — SOP yang bisa diajak ngobrol
 
-Prototype berbahasa Indonesia untuk tanya jawab SOP, rencana pengajuan lembur, approval manusia, upload SOP Markdown/teks, dan audit trail. Tindakan ke HRIS hanya simulasi. Prototype tidak menyediakan login atau multi-user.
+**SOPia** (dibaca *so-pi-a*) menghidupkan SOP yang biasanya hanya dibaca di dalam PDF. Ceritakan proses yang ingin dijalankan; SOPia membantu menemukan pasal yang relevan, menjelaskan langkah, dan menunjukkan kapan persetujuan manusia dibutuhkan.
 
-Rencana: [PLAN.md](PLAN.md). Daftar implementasi: [TASKS.md](TASKS.md). Dokumen sumber: [00-techstack.md](00-techstack.md), [01-prototype-plan.md](01-prototype-plan.md), [02-arsitektur.md](02-arsitektur.md).
-Kontrak endpoint: [docs/api-contract.md](docs/api-contract.md).
+> SOP yang bisa diajak ngobrol.
 
-## Jalankan lokal dengan Docker
+Prototype ini menggunakan SOP lembur fiktif untuk demonstrasi. Pengiriman ke HRIS dan persetujuan atasan adalah simulasi—bukan keputusan atau tindakan operasional sungguhan.
 
-Prasyarat: Docker Desktop dengan Docker Compose aktif.
+## Coba prototype
+
+Frontend: **<https://orang2-bu.github.io/SOPia/>**
+
+Deployment GitHub Pages terakhir tercatat pada commit `799bd33`. Saat ini website berjalan dalam **mode pratinjau** karena belum terhubung ke backend publik. Chat, rencana, dan persetujuan di mode ini menggunakan simulasi di browser.
+
+## Identitas SOPia
+
+- Nama selalu ditulis **SOPia**: “SOP” kapital, “ia” kecil.
+- Warna utama: Ink Indigo `#3B3BD4`; aksen percakapan: Bubble Mint `#6FF2B8`.
+- Latar Paper `#FAFAF7`, teks Tinta `#1A1A2E`.
+- Plus Jakarta Sans untuk heading dan identitas; DM Sans untuk teks antarmuka.
+- Suara brand santai dan bisa dipercaya: menjelaskan pasal dengan bahasa sederhana, tanpa terdengar seperti robot atau mengarang aturan.
+
+## Yang ada di prototype
+
+- Tanya jawab berbasis pasal SOP beserta kutipan sumber.
+- Klarifikasi informasi yang belum lengkap dan rencana langkah kerja.
+- Approval simulasi untuk langkah yang memerlukannya, serta jejak audit.
+- Unggah dokumen `.md` atau `.txt` maksimal 1 MB ketika backend aktif.
+- Retrieval lokal sebagai fallback; Qdrant dan multilingual-e5 bersifat opsional.
+
+## Jalankan secara lokal
+
+### Prasyarat
+
+- Python 3.12
+- Node.js 24 dan npm
+- Docker Desktop + Docker Compose (opsional, untuk menjalankan seluruh layanan sekaligus)
+
+### Seluruh layanan dengan Docker
 
 ```powershell
 Copy-Item .env.example .env
 docker compose up --build
 ```
 
-Buka `http://localhost:3000`. API tersedia di `http://localhost:8000`; health check di `/health`. Qdrant hanya terbuka pada loopback komputer lokal. SQLite dan file upload disimpan di volume Compose.
+Buka frontend di `http://localhost:3000`. API tersedia di `http://localhost:8000` dan health check di `/health`. SQLite dan unggahan disimpan di volume Compose; Qdrant hanya dipublikasikan pada loopback lokal.
 
-Pencarian memakai Qdrant dan `multilingual-e5` jika package AI serta model embedding tersedia di cache. Untuk mengaktifkannya, pasang extras dengan `INSTALL_AI_EXTRAS=1`, lalu sediakan model `intfloat/multilingual-e5-small` di cache atau set `SOPIA_E5_LOCAL_ONLY=0` agar model diunduh saat pertama dipakai. Tanpa keduanya, prototype langsung memakai fallback pencarian kata lokal. Jawaban LLM dinonaktifkan secara default; aktifkan Ollama melalui profile `llm` dan `SOPIA_LLM_PROVIDER=ollama`, atau gunakan Groq dengan `SOPIA_LLM_PROVIDER=groq` dan `GROQ_API_KEY`.
+Tanpa AI extras atau model embedding yang tersedia, backend memakai pencarian kata lokal. Untuk mengunduh model saat pertama kali digunakan, atur `SOPIA_E5_LOCAL_ONLY=0`. LLM tidak aktif secara default: Ollama dapat dijalankan dengan profile `llm`, atau gunakan Groq dengan `SOPIA_LLM_PROVIDER=groq` dan `GROQ_API_KEY` di backend.
 
-Contoh pengajuan yang lengkap:
+### Backend dan frontend secara terpisah
 
-> Mau mengajukan lembur 3 jam untuk 3 orang tanggal 20–22 Oktober 2026 karena tutup buku bulanan.
-
-Pengajuan di atas dua jam berhenti untuk approval. Durasi di atas empat jam ditolak sesuai SOP contoh.
-
-## Jalankan backend langsung dengan Python
+Terminal pertama, dari root repo:
 
 ```powershell
 py -3.12 -m venv .venv
@@ -36,7 +61,7 @@ $env:SOPIA_UPLOAD_DIR = "data/uploads"
 python -m uvicorn api.main:app --reload --port 8000
 ```
 
-Di terminal kedua, jalankan frontend:
+Terminal kedua:
 
 ```powershell
 cd web
@@ -45,17 +70,57 @@ $env:NEXT_PUBLIC_API_BASE_URL = "http://localhost:8000"
 npm run dev
 ```
 
-Untuk menguji backend: `python -m unittest api.test_workflow -v`. Smoke check AI: `python -m ai`.
+Buka `http://localhost:3000`. Jika `NEXT_PUBLIC_API_BASE_URL` tidak diatur, frontend berjalan dalam mode pratinjau.
 
-## Deploy sementara
+## Konfigurasi
 
-URL frontend aktif: <https://orang2-bu.github.io/SOPia/>. GitHub Pages sekarang aktif dan workflow deploy berhasil pada commit `799bd33`. Aplikasi ini masih mode preview dengan API yang tidak dikonfigurasi. Untuk mengaktifkan alur live, atur `NEXT_PUBLIC_API_BASE_URL` ke endpoint HTTPS FastAPI lalu izinkan origin `https://orang2-bu.github.io` pada `CORS_ORIGINS` backend.
+Salin `.env.example` ke `.env` untuk Docker. Variabel yang umum dipakai:
 
-GitHub Pages site pada repository private hanya tersedia jika plan organisasi mendukung Pages untuk repository private. Backend harus berjalan pada host terpisah dengan HTTPS dan penyimpanan persisten agar alur live dapat dipakai dari URL publik.
+| Variabel | Kegunaan |
+|---|---|
+| `NEXT_PUBLIC_API_BASE_URL` | URL API yang digunakan browser; nilainya publik dan tertanam pada build frontend. |
+| `CORS_ORIGINS` | Daftar origin frontend yang diizinkan oleh API. |
+| `SOPIA_DB_PATH` | Lokasi database SQLite. |
+| `SOPIA_DATA_DIR` / `SOPIA_UPLOAD_DIR` | Lokasi data SOP dan dokumen unggahan. |
+| `SOPIA_E5_LOCAL_ONLY` | Default aman `1`; set `0` bila model embedding boleh diunduh. |
+| `SOPIA_LLM_PROVIDER` | Provider verbalization opsional, misalnya `ollama` atau `groq`. |
+| `GROQ_API_KEY` | Secret backend untuk provider Groq; jangan pernah masukkan ke variabel `NEXT_PUBLIC_*`. |
 
-## Catatan prototype
+Lihat `.env.example`, [kontrak API](docs/api-contract.md), dan [panduan deployment](docs/deployment.md) untuk detail.
 
-- Data `data/sop-lembur.md` bersifat fiktif untuk demo.
-- `api/data/` lokal, SQLite, model unduhan, file upload, dan `.env` tidak dimasukkan ke Git.
-- Endpoint approval menggunakan identitas simulasi; jangan gunakan untuk keputusan operasional nyata.
-- Jev, Ollama, Groq, Qdrant, dan model e5 bersifat opsional; fallback lokal menjaga demo tetap berjalan.
+## Pengujian
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest api.test_workflow -v
+.\.venv\Scripts\python.exe -m ai
+```
+
+Untuk frontend:
+
+```powershell
+cd web
+npm run typecheck
+$env:GITHUB_PAGES = "true"
+npm run build
+```
+
+## Struktur repo
+
+```text
+api/       FastAPI, state workflow, penyimpanan dan tes
+ai/        Retrieval, adapter keputusan, serta fallback
+web/       Antarmuka Next.js
+data/      SOP demo
+config/    Matriks persetujuan yang dapat dikonfigurasi
+docs/      Kontrak API dan catatan deployment
+```
+
+Rencana implementasi: [PLAN.md](PLAN.md) · Status task: [TASKS.md](TASKS.md) · Mini branding kit: [BRANDING (1).md](BRANDING%20(1).md)
+
+## Batasan dan keamanan demo
+
+- SOP di `data/sop-lembur.md` adalah contoh fiktif, bukan kebijakan perusahaan.
+- Prototype tidak menyediakan autentikasi atau dukungan multi-user.
+- Identitas approval adalah simulasi; jangan gunakan untuk keputusan operasional.
+- Jangan commit `.env`, API key, database lokal, atau dokumen pengguna.
+- Untuk alur live dari Pages, host FastAPI secara terpisah dengan HTTPS dan penyimpanan persisten; atur `NEXT_PUBLIC_API_BASE_URL` dan izinkan origin `https://orang2-bu.github.io` pada CORS API.
