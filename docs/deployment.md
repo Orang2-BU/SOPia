@@ -4,9 +4,9 @@
 
 Workflow `.github/workflows/pages.yml` menjalankan `npm ci`, static export Next.js, lalu deploy artifact ke Pages saat folder `web/` berubah pada `main`.
 
-Belum ada URL deployment. Aktivasi Pages dicoba melalui GitHub API namun ditolak (HTTP 422) karena repository privat ini tidak didukung oleh plan saat ini. Jangan anggap `https://orang2-bu.github.io/SOPia/` aktif sebelum Pages berhasil diaktifkan dan workflow deployment selesai.
+URL frontend aktif: <https://orang2-bu.github.io/SOPia/>. GitHub Pages diaktifkan setelah repository menjadi publik; workflow deployment berhasil untuk commit `799bd33`. Build dan aset statis sudah diperiksa dengan respons HTTP 200.
 
-Static export memakai mode pratinjau jika repository variable `NEXT_PUBLIC_API_BASE_URL` kosong. Untuk menghubungkan API, atur variable itu ke URL HTTPS publik FastAPI. Nilainya akan tertanam pada build frontend dan dapat dilihat pengunjung; jangan menaruh API key di sana.
+Static export memakai mode pratinjau karena `NEXT_PUBLIC_API_BASE_URL` belum diatur. Untuk menghubungkan API, atur variable itu ke URL HTTPS publik FastAPI. Nilainya akan tertanam pada build frontend dan dapat dilihat pengunjung; jangan menaruh API key di sana.
 
 ## API (host demo)
 

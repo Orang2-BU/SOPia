@@ -49,7 +49,7 @@ Untuk menguji backend: `python -m unittest api.test_workflow -v`. Smoke check AI
 
 ## Deploy sementara
 
-Static export frontend dan workflow GitHub Pages sudah disiapkan. Belum ada URL publik: aktivasi Pages ditolak karena repository ini privat dan plan GitHub saat ini tidak mendukung Pages untuk repo privat. Vercel CLI/deployment juga belum tersedia di sesi ini. Jika nanti tersedia host statis, atur `NEXT_PUBLIC_API_BASE_URL` ke endpoint HTTPS FastAPI dan izinkan origin frontend pada `CORS_ORIGINS` backend. Tanpa API base URL, aplikasi menampilkan mode pratinjau dengan interaksi simulasi.
+URL frontend aktif: <https://orang2-bu.github.io/SOPia/>. GitHub Pages sekarang aktif dan workflow deploy berhasil pada commit `799bd33`. Aplikasi ini masih mode preview dengan API yang tidak dikonfigurasi. Untuk mengaktifkan alur live, atur `NEXT_PUBLIC_API_BASE_URL` ke endpoint HTTPS FastAPI lalu izinkan origin `https://orang2-bu.github.io` pada `CORS_ORIGINS` backend.
 
 GitHub Pages site pada repository private hanya tersedia jika plan organisasi mendukung Pages untuk repository private. Backend harus berjalan pada host terpisah dengan HTTPS dan penyimpanan persisten agar alur live dapat dipakai dari URL publik.
 

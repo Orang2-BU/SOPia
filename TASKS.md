@@ -79,13 +79,13 @@ Selesai jika: dua alur dapat diselesaikan lewat UI live dan refresh tidak menghi
 
 PIC: Yassir, Dewa, Lucky. Prioritas: P0. Dependensi: integrasi M1–M3.
 
-- [ ] T44 — Pastikan akses Vercel untuk deployment; akses GitHub tersedia dan file sudah direview agar tidak menyertakan secret atau data lokal.
+- [x] T44 — Pastikan akses GitHub untuk deployment; file direview agar tidak menyertakan secret atau data lokal. Repo kini publik dan Pages aktif.
 - [x] T45 — Jalankan pemeriksaan backend dan build frontend; perbaiki kegagalan yang menghambat rilis.
 - [ ] T46 — Siapkan komputer demo, volume SQLite/Qdrant, model embedding/LLM, dan seed SOP; verifikasi health layanan.
 - [ ] T47 — Jalankan tunnel HTTPS ke FastAPI; uji health dan satu request chat dari jaringan luar.
-- [ ] T48 — Aktifkan jalur deployment yang didukung (Vercel atau Pages); implementasi dan workflow Pages sudah di-push, tetapi Pages ditolak untuk repo privat pada plan saat ini.
+- [x] T48 — Commit/push implementasi dan konfigurasi workflow GitHub Pages; workflow deploy berhasil.
 - [ ] T49 — Atur `NEXT_PUBLIC_API_BASE_URL` ke URL tunnel; simpan key Jev/Groq hanya di backend, lalu set CORS untuk origin frontend.
-- [ ] T50 — Deploy frontend dan catat URL aktual serta commit rilis; verifikasi respons HTTPS dan aset halaman.
+- [x] T50 — Deploy frontend di https://orang2-bu.github.io/SOPia/; verifikasi respons HTTPS dan aset halaman pada commit `799bd33`.
 - [ ] T51 — Jalankan chat -> plan -> execute -> approve -> audit dari URL Vercel pada perangkat lain.
 - [ ] T52 — Jalankan upload -> daftar pasal -> pertanyaan SOP baru dari URL Vercel.
 - [ ] T53 — Uji backend/tunnel offline, dokumentasikan prosedur start ulang dan redeploy ketika URL tunnel berubah.
@@ -97,9 +97,9 @@ Selesai jika: URL Vercel aktual tersedia dan kedua alur live lulus dari jaringan
 
 Task ini bersifat kondisional; tidak wajib diselesaikan bila jalur Vercel berhasil.
 
-- [ ] G01 — Konfigurasikan Next.js static export, base path `/SOPia`, aset/gambar, dan API base URL saat build; pastikan fitur frontend kompatibel dengan export.
-- [ ] G02 — Buat workflow GitHub Actions untuk build dan deploy `web/out` ke Pages.
-- [ ] G03 — Aktifkan Pages, tambah origin ke CORS backend, dan verifikasi URL deployment aktual. Percobaan aktivasi ditolak plan GitHub untuk repo privat.
+- [x] G01 — Konfigurasikan Next.js static export, base path `/SOPia`, aset/gambar, dan API base URL saat build; build berhasil.
+- [x] G02 — Buat workflow GitHub Actions untuk build dan deploy `web/out` ke Pages.
+- [x] G03 — Aktifkan Pages dan verifikasi URL deployment aktual. Origin API belum ditambahkan karena belum ada backend publik.
 - [ ] G04 — Uji aset, navigasi, refresh, dua alur live, dan backend offline; tulis keterbatasan backend/tunnel yang sama seperti jalur Vercel.
 
 ## M5 — Validasi dan bukti demo
