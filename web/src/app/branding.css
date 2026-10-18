@@ -136,6 +136,10 @@ summary:focus-visible {
     font-size: 10px;
   }
 
+  .mobile-nav .nav-item span {
+    display: block;
+  }
+
   .mobile-nav .nav-item svg {
     width: 15px;
     height: 15px;

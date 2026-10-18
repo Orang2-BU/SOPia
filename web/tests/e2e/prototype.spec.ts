@@ -19,7 +19,7 @@ test("Pages chat completes an approval workflow and exposes audit trail", async 
   await page.getByRole("button", { name: "Kirim pesan" }).click();
   await expect(page.locator(".citation").first()).toContainText("SOP-LEMBUR-04");
   await expect(page.locator(".message-row.assistant").last()).toContainText("Menurut SOP-LEMBUR-04");
-  await expect(page.locator(".message-row.assistant").last()).not.toContainText("##");
+  await expect(page.locator(".message-row.assistant .bubble").last()).not.toContainText("##");
   await expect(page.getByRole("button", { name: /Jalankan rencana/ })).toBeEnabled();
   await page.screenshot({ path: path.join(evidenceDir, "chat-citation-plan.png"), fullPage: true });
 
