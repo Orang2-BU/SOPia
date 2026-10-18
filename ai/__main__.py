@@ -19,7 +19,7 @@ def main() -> None:
     assert not analysis["missing"]
     plan = create_plan(analysis, hits)
     assert plan["steps"][-1]["mode"] == "butuh_persetujuan"
-    assert "SOP" in verbalize_answer(analysis, hits, plan)
+    assert "perlu persetujuan atasan" in verbalize_answer(analysis, hits, plan)
 
     seed_passage = split_passages("## SOP-LEMBUR-01 — Pengajuan\nTanggal harus dicantumkan.")[0]
     assert seed_passage["pasal_id"] == "SOP-LEMBUR-01"

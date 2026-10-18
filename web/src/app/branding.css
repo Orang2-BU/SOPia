@@ -106,6 +106,10 @@ body {
   box-shadow: 0 0 0 3px var(--indigo-soft);
 }
 
+.mobile-nav {
+  display: none;
+}
+
 button:focus-visible,
 a:focus-visible,
 textarea:focus-visible,
@@ -115,6 +119,28 @@ summary:focus-visible {
 }
 
 @media (max-width: 560px) {
+  .mobile-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 7px 10px 0;
+    border-bottom: 1px solid var(--line);
+    background: #fff;
+  }
+
+  .mobile-nav .nav-item {
+    justify-content: center;
+    gap: 5px;
+    min-height: 44px;
+    padding: 0 4px;
+    font-size: 10px;
+  }
+
+  .mobile-nav .nav-item svg {
+    width: 15px;
+    height: 15px;
+  }
+
   .brand-mark::after {
     top: 5px;
     right: 5px;

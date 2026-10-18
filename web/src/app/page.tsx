@@ -28,7 +28,7 @@ function Icon({ name }: { name: "chat" | "upload" | "audit" | "send" | "check" |
 }
 
 function prettyStatus(status?: string) {
-  const labels: Record<string, string> = { pending: "Menunggu", running: "Berjalan", waiting_approval: "Perlu persetujuan", completed: "Selesai", rejected: "Ditolak", failed: "Gagal", approved: "Disetujui" };
+  const labels: Record<string, string> = { ready: "Siap ditinjau", pending: "Menunggu", running: "Berjalan", waiting_approval: "Perlu persetujuan", completed: "Selesai", rejected: "Ditolak", failed: "Gagal", approved: "Disetujui" };
   return labels[status || ""] || status || "Menunggu";
 }
 
@@ -141,7 +141,7 @@ export default function Home() {
 
   return <main className="shell">
     <aside className="sidebar">
-      <a className="brand" href="#chat" onClick={() => setSection("chat")}><span className="brand-mark"><Icon name="spark" /></span><span>SOPia<small>ASISTEN PROSES SOP</small></span></a>
+      <a className="brand" href="#chat" onClick={() => setSection("chat")}><span className="brand-mark"><Icon name="chat" /></span><span>SOPia<small>ASISTEN PROSES SOP</small></span></a>
       <div className="workspace-label">RUANG KERJA</div>
       <nav aria-label="Navigasi utama" className="nav-list">
         <button className={section === "chat" ? "nav-item active" : "nav-item"} onClick={() => setSection("chat")}><Icon name="chat" /> <span>Asisten SOP</span></button>
@@ -154,6 +154,11 @@ export default function Home() {
     </aside>
     <section className="main-panel">
       <header className="topbar"><button className="mobile-brand" onClick={() => setSection("chat")}><span className="brand-mark"><Icon name="chat" /></span>SOPia</button><div className="crumb">Ruang kerja <span>/</span> <b>{section === "chat" ? "Asisten SOP" : section === "upload" ? "Dokumen SOP" : "Jejak audit"}</b></div><div className="top-actions"><span className={hasLiveApi ? "connection live" : "connection"}><i />{hasLiveApi ? "API terhubung" : "Mode pratinjau"}</span><button aria-label="Menu" className="menu-btn"><Icon name="menu" /></button></div></header>
+      <nav aria-label="Navigasi utama seluler" className="mobile-nav">
+        <button className={section === "chat" ? "nav-item active" : "nav-item"} onClick={() => setSection("chat")}><Icon name="chat" /><span>Asisten SOP</span></button>
+        <button className={section === "upload" ? "nav-item active" : "nav-item"} onClick={() => setSection("upload")}><Icon name="upload" /><span>Dokumen SOP</span></button>
+        <button className={section === "audit" ? "nav-item active" : "nav-item"} onClick={() => setSection("audit")}><Icon name="audit" /><span>Jejak audit</span></button>
+      </nav>
       {section === "chat" && <div className="content chat-content">
         <div className="chat-heading"><div><div className="eyebrow">SOP YANG BISA DIAJAK NGOBROL</div><h1>Halo, Andi</h1><p>Ceritakan prosesnya. Saya bantu temukan aturan dan langkah yang tepat.</p></div><button className="new-chat" onClick={() => { setMessages([{ role: "assistant", text: "Halo! Saya SOPia. Ceritakan proses yang ingin Anda jalankan—saya bantu carikan pasalnya." }]); setPlan(null); setConversationId(""); localStorage.removeItem("sopia-plan-id"); localStorage.removeItem("sopia-conversation-id"); }}><span>＋</span> Percakapan baru</button></div>
         <div className="chat-grid"><div className="conversation-card"><div className="conversation-top"><div className="assistant-avatar"><Icon name="spark" /></div><div><b>SOPia</b><span>Asisten SOP · siap membantu</span></div><span className="secure-tag"><Icon name="check" /> Berbasis SOP</span></div>

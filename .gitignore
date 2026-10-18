@@ -22,7 +22,10 @@ out/
 dist/
 
 # Local artifacts
+.tools/
 .vscode/
 .idea/
 *.log
 coverage/
+web/test-results/
+web/playwright-report/

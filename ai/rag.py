@@ -112,14 +112,21 @@ def _load_seed_files() -> None:
 
 def _lexical_search(query: str, limit: int, sop_id: str | None) -> list[dict[str, Any]]:
     _load_seed_files()
-    terms = set(re.findall(r"[\w]+", query.casefold()))
+    stop_words = {
+        "apa", "apakah", "bagaimana", "berapa", "boleh", "dan", "di", "dengan", "ini", "itu",
+        "ke", "saja", "saya", "sebutkan", "tentang", "untuk", "yang", "atau", "pada", "dari",
+        "dalam", "ada", "bisa", "mau", "tolong", "akan", "the", "is", "are", "what", "how",
+    }
+    terms = {term for term in re.findall(r"[\w]+", query.casefold()) if term not in stop_words}
+    if not terms:
+        return []
     ranked = []
     for passage in _passages.values():
         if sop_id and passage.get("sop_id") != sop_id:
             continue
         words = set(re.findall(r"[\w]+", (passage["title"] + " " + passage["text"]).casefold()))
         score = len(terms & words) / max(1, len(terms))
-        if score:
+        if score >= 0.2:
             ranked.append((score, passage))
     ranked.sort(key=lambda item: item[0], reverse=True)
     return [{k: v for k, v in passage.items() if k != "_id"} | {"score": score}

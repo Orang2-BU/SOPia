@@ -252,7 +252,13 @@ async def upload_sop(file: UploadFile = File(...)) -> dict[str, Any]:
     upload_dir.mkdir(parents=True, exist_ok=True)
     destination = upload_dir / f"{stem}-{digest}{suffix}"
     destination.write_bytes(raw)
-    passages = index_sop_text(content, f"{stem}-{digest}", digest)
+    try:
+        passages = index_sop_text(content, f"{stem}-{digest}", digest)
+        if not passages:
+            raise ValueError("dokumen tidak menghasilkan pasal")
+    except Exception as exc:
+        destination.unlink(missing_ok=True)
+        raise HTTPException(status_code=503, detail="dokumen gagal diindeks; silakan coba lagi") from exc
     return {"status": "indexed", "sop_id": f"{stem}-{digest}", "version": digest,
             "passages": passages, "count": len(passages)}
 
@@ -304,6 +310,14 @@ def chat(payload: ChatRequest) -> dict[str, Any]:
             raise HTTPException(status_code=422, detail="durasi dan jumlah orang harus lebih besar dari nol")
         if slots["end_date"] < slots["start_date"]:
             raise HTTPException(status_code=422, detail="tanggal selesai tidak boleh sebelum tanggal mulai")
+        expected_rule = ("SOP-LEMBUR-05" if slots["hours_per_person_per_day"] > MAX_OVERTIME_HOURS_PER_DAY
+                         else "SOP-LEMBUR-04" if requires_approval(slots["hours_per_person_per_day"])
+                         else "SOP-LEMBUR-03")
+        rule_evidence = search_passages(expected_rule, limit=1)
+        if rule_evidence:
+            primary = rule_evidence[0]
+            citations = [primary, *[item for item in evidence if item.get("pasal_id") != expected_rule]][:3]
+            evidence = citations
         if slots["hours_per_person_per_day"] > MAX_OVERTIME_HOURS_PER_DAY:
             rule_citation = next((item for item in citations
                                   if item.get("pasal_id") == RULES["absolute_limit"]["pasal_ref"]), None)
