@@ -1,0 +1,17 @@
+process: pengajuan_lembur
+rules:
+  - id: regular_duration
+    pasal_ref: SOP-LEMBUR-03
+    max_hours_per_person_per_day: 2
+    mode: auto
+  - id: extended_duration
+    pasal_ref: SOP-LEMBUR-04
+    min_hours_exclusive: 2
+    max_hours_per_person_per_day: 4
+    mode: butuh_persetujuan
+    approver: atasan_langsung
+  - id: absolute_limit
+    pasal_ref: SOP-LEMBUR-05
+    min_hours_exclusive: 4
+    mode: reject
+

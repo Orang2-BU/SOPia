@@ -10,9 +10,9 @@ PIC: Lucky, Hadi, Yassir. Prioritas: P0. Dependensi: tidak ada.
 
 - [ ] T01 — Buat struktur `api/`, `ai/`, `web/`, `data/`, `config/`, `docs/`; tetapkan root repo sebagai root proyek.
 - [ ] T02 — Inisialisasi Python 3.12/FastAPI dan Next.js 16/Tailwind; kunci dependensi, runtime, dan perintah menjalankan aplikasi.
-- [ ] T03 — Buat `.gitignore` dan `.env.example`; abaikan secret, model unduhan, database lokal, cache, dan build output.
-- [ ] T04 — Tulis `data/sop-lembur.md` berisi 5–7 pasal fiktif dengan ID stabil, aturan dua jam, persetujuan biasa, serta pengecualian.
-- [ ] T05 — Buat `config/approval-matrix.yaml`; bedakan aturan wajib, persetujuan biasa, dan persetujuan pengecualian. Cocokkan dengan setiap pasal seed.
+- [x] T03 — Buat `.gitignore` dan `.env.example`; abaikan secret, model unduhan, database lokal, cache, dan build output.
+- [x] T04 — Tulis `data/sop-lembur.md` berisi 5–7 pasal fiktif dengan ID stabil, aturan dua jam, persetujuan biasa, serta pengecualian.
+- [x] T05 — Buat `config/approval-matrix.yaml`; bedakan aturan wajib, persetujuan biasa, dan persetujuan pengecualian. Cocokkan dengan setiap pasal seed.
 - [ ] T06 — Dokumentasikan field pengajuan, satuan durasi per orang per hari, konteks percakapan, tanggal lengkap, dan perilaku saat data kurang.
 - [ ] T07 — Sepakati kontrak `/chat`, `/execute`, `/approve`, `/approvals/{id}`, `/sop/upload`, `/audit`, `/health`, dan `GET /plans/{id}`; sertakan payload, respons, error, dan fixture UI.
 - [ ] T08 — Tetapkan model conversation, SOP/pasal/versi, plan, step, approval, dan audit; definisikan transisi status dan constraint request berulang.

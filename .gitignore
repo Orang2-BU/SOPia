@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Secrets and local state
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite3
+data/uploads/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+dist/
+
+# Local artifacts
+.vscode/
+.idea/
+*.log
+coverage/
+
