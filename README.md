@@ -10,7 +10,9 @@ Prototype ini menggunakan SOP lembur fiktif untuk demonstrasi. Pengiriman ke HRI
 
 Frontend: **<https://orang2-bu.github.io/SOPia/>**
 
-Deployment GitHub Pages terakhir tercatat pada commit `799bd33`. Saat ini website berjalan dalam **mode pratinjau** karena belum terhubung ke backend publik. Chat, rencana, dan persetujuan di mode ini menggunakan simulasi di browser.
+Frontend diterbitkan melalui GitHub Pages dan saat ini terhubung ke backend demo sementara melalui quick tunnel HTTPS Cloudflare: <https://frank-differences-symptoms-tcp.trycloudflare.com/health>. Workflow deployment terbaru sukses; chat, approval, audit, dan upload telah lulus E2E browser. Quick tunnel berubah ketika dimulai ulang dan host demo harus tetap aktif.
+
+API prototype belum memiliki autentikasi. Endpoint tunnel dapat diakses publik; gunakan hanya data fiktif, jangan masukkan informasi pribadi/operasional, dan hentikan tunnel setelah sesi demo.
 
 ## Identitas SOPia
 

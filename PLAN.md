@@ -1,7 +1,7 @@
 # Rencana Implementasi Prototype SOPia
 
 Tanggal: 18 Oktober 2026  
-Status: rencana implementasi; aplikasi dan deployment belum dibuat.  
+Status: prototype telah dipublikasikan di GitHub Pages dan terhubung ke backend demo melalui quick tunnel HTTPS; acceptance test dan E2E lulus. Backend tunnel bersifat sementara, publik tanpa autentikasi, dan hanya untuk data fiktif.
 Sumber: `00-techstack.md`, `01-prototype-plan.md`, `02-arsitektur.md`.  
 Pelacakan pekerjaan: [TASKS.md](TASKS.md).
 
@@ -9,27 +9,23 @@ Pelacakan pekerjaan: [TASKS.md](TASKS.md).
 
 Membangun prototype berbahasa Indonesia yang dapat menerima permintaan pengajuan lembur, menjawab dengan kutipan pasal SOP, menyusun langkah eksekusi, menunggu persetujuan pada langkah kritis, melanjutkan atau menghentikan proses, dan mencatat jejak keputusan.
 
-Prototype memiliki URL frontend sementara di Vercel. Saat demo lengkap, frontend terhubung ke backend aktif melalui HTTPS. Upload SOP `.txt` atau `.md` benar-benar masuk ke indeks pencarian dan dapat digunakan untuk menjawab pertanyaan berikutnya.
+Prototype memiliki URL frontend sementara di GitHub Pages. Saat demo lengkap, frontend terhubung ke backend aktif melalui HTTPS. Upload SOP `.txt` atau `.md` benar-benar masuk ke indeks pencarian dan dapat digunakan untuk menjawab pertanyaan berikutnya.
 
 Eksekusi ke HRIS/ERP berupa simulasi yang diberi label di UI dan audit. Persetujuan menggunakan aktor simulasi; autentikasi dan role produksi belum termasuk scope.
 
 ## 2. Pilihan deployment sementara
 
-Pilihan utama: **Next.js di Vercel, backend dan layanan AI di komputer demo melalui Docker Compose, API diekspos melalui tunnel HTTPS**.
+Pilihan: **Next.js static export di GitHub Pages; backend dan layanan AI dijalankan di komputer demo melalui Docker Compose atau Python, API diekspos melalui tunnel HTTPS**.
 
 ```text
-Browser -> Vercel / Next.js -> HTTPS tunnel -> FastAPI
+Browser -> GitHub Pages / Next.js static export -> HTTPS tunnel -> FastAPI
                                              |-- Qdrant + multilingual-e5
                                              |-- Jev / heuristic lokal
                                              |-- Ollama / Groq
                                              `-- SQLite pada volume persisten
 ```
 
-Vercel mendukung Python/FastAPI, tetapi memindahkan backend ke sana membutuhkan penyesuaian penyimpanan dan layanan AI. SQLite berbasis file tidak dipakai sebagai database persisten pada Vercel Functions. Untuk prototype awal, backend tetap mengikuti stack Docker pada dokumen sumber.
-
-Komputer backend, Docker, dan tunnel harus aktif selama demo. URL frontend tetap tersedia saat backend mati, tetapi fitur live akan menampilkan pesan layanan tidak tersedia. Hosting penuh yang berjalan sepanjang waktu memerlukan hosting backend tambahan dan menjadi keputusan lanjutan.
-
-GitHub Pages menjadi alternatif untuk frontend hasil static export. Ia tetap memerlukan backend HTTPS terpisah untuk dua alur lengkap. Tidak ada kebutuhan menjalankan kedua hosting sekaligus.
+GitHub Pages hanya melayani frontend hasil static export; ia tetap memerlukan backend HTTPS terpisah untuk dua alur lengkap. Komputer backend dan tunnel harus aktif selama demo. URL frontend tetap tersedia saat backend mati, tetapi fitur live akan menampilkan pesan layanan tidak tersedia. Hosting backend selalu aktif memerlukan keputusan dan penyediaan terpisah.
 
 ## 3. Batas scope
 
@@ -84,10 +80,10 @@ Estimasi 5–7 hari kerja untuk tim pada dokumen sumber; estimasi perlu disesuai
 | M1 — Chat dengan evidence | Hari 2–3 | Adit, Hadi | Retrieval nyata, klarifikasi, sitasi valid, plan, dan fallback Jev berfungsi |
 | M2 — Eksekusi dan approval | Hari 3–4 | Hadi | Auto/wait/approve/reject, state persisten, dan audit bekerja |
 | M3 — UI dan ingestion | Hari 2–5 | Dewa, Adit, Yassir | Dua alur terhubung, status pulih saat refresh, dokumen upload dapat ditanya |
-| M4 — Deployment Vercel | Hari 5–6 | Yassir, Dewa, Lucky | Frontend publik terhubung ke API HTTPS dan demo berhasil dari perangkat lain |
+| M4 — Deployment GitHub Pages | Hari 5–6 | Yassir, Dewa, Lucky | Frontend publik terhubung ke API HTTPS dan demo berhasil dari perangkat lain |
 | M5 — Bukti prototype | Hari 6–7 | Lucky, seluruh tim | Hasil uji, tangkapan layar, video, URL dan panduan menjalankan tersedia |
 
-Dependensi utama: M0 -> M1 -> M2 -> integrasi M3 -> M4 -> M5. UI dan ingestion dapat dikerjakan bersamaan setelah kontrak M0 siap. Preview UI Vercel boleh terbit lebih awal dengan label fixture; preview tersebut belum memenuhi target prototype lengkap.
+Dependensi utama: M0 -> M1 -> M2 -> integrasi M3 -> M4 -> M5. UI dan ingestion dapat dikerjakan bersamaan setelah kontrak M0 siap. Preview UI Pages boleh terbit lebih awal dengan label fixture; preview tersebut belum memenuhi target prototype lengkap.
 
 ## 7. Rencana validasi
 
@@ -97,28 +93,28 @@ Dependensi utama: M0 -> M1 -> M2 -> integrasi M3 -> M4 -> M5. UI dan ingestion d
 - Uji execute/approve berulang, approval salah plan, dan pemulihan setelah refresh/restart API.
 - Uji upload valid, file tidak didukung, ekstraksi invalid, dan kegagalan indexing; file gagal tidak boleh dilaporkan siap dicari.
 - Uji Jev tidak tersedia, verbalisasi gagal, dan backend tidak dapat dijangkau.
-- Jalankan dua alur dari URL Vercel dengan browser/perangkat di luar komputer backend.
+- Jalankan dua alur dari URL Pages dengan browser/perangkat di luar komputer backend.
 
 Gunakan sepuluh kasus chat yang jawaban dan pasal acuannya ditentukan lebih dulu. Target awal: minimal 8/10 jawaban dan sitasi tepat; seluruh kasus approval kritis, penolakan, dan larangan wajib lulus. Catat hasil aktual; skor tidak boleh dibuat dari perkiraan.
 
-## 8. Langkah deployment Vercel
+## 8. Langkah deployment GitHub Pages dan backend demo
 
 1. Selesaikan integrasi lokal dan build frontend; persistensikan SQLite serta Qdrant melalui volume Docker.
 2. Jalankan API dan dependensi, seed SOP, lalu periksa health dan retrieval.
 3. Buka tunnel HTTPS hanya ke API; pastikan tunnel dapat diakses dari jaringan luar.
-4. Hubungkan repo `Orang2-BU/SOPia` ke proyek Vercel, pilih framework Next.js dan Root Directory `web`.
+4. Build static export frontend melalui workflow GitHub Actions pada repo `Orang2-BU/SOPia`.
 5. Gunakan `NEXT_PUBLIC_API_BASE_URL` untuk alamat API HTTPS. Nilai ini publik dan tidak boleh berisi secret. Simpan kredensial Jev/Groq hanya di konfigurasi backend.
 6. Atur `CORS_ORIGINS` backend ke origin deployment yang dipakai. Tambahkan origin preview secara eksplisit jika dipakai untuk demo.
-7. Build/deploy melalui integrasi Git, kemudian jalankan smoke test dari URL hasil deployment. Bila alamat tunnel berubah, perbarui API base URL dan redeploy frontend.
+7. Set repository variable `NEXT_PUBLIC_API_BASE_URL` ke URL tunnel; jalankan workflow Pages ulang, lalu smoke test dari URL publik. Bila alamat tunnel berubah, perbarui variable dan redeploy frontend.
 8. Catat URL frontend/API, commit yang dirilis, langkah start/stop demo, dan keterbatasan waktu aktif. Deployment sebelumnya dapat digunakan kembali untuk rollback frontend.
 
-Prasyarat saat tahap deploy: akses GitHub dan Vercel, izin koneksi repo, serta akun/tunnel jika penyedia memerlukannya. Tidak mengasumsikan pembelian layanan.
+Prasyarat saat tahap deploy: akses GitHub Actions, komputer demo yang tetap menyala, dan tunnel HTTPS. Tidak mengasumsikan pembelian layanan.
 
-## 9. Alternatif GitHub Pages
+## 9. Static export GitHub Pages
 
-Jika Vercel tidak tersedia, gunakan Next.js static export dan GitHub Actions untuk menerbitkan output `web/out`. Konfigurasikan base path `/SOPia`, asset path yang sesuai, dan fitur gambar agar kompatibel dengan export statis. Hindari server actions atau route handler frontend; seluruh operasi live menuju FastAPI HTTPS.
+Gunakan Next.js static export dan GitHub Actions untuk menerbitkan output `web/out`. Konfigurasikan base path `/SOPia`; hindari server actions atau route handler frontend. Seluruh operasi live menuju FastAPI HTTPS.
 
-Tetapkan API base URL pada waktu build, lalu uji aset, navigasi, refresh halaman, dan dua alur dari URL Pages. Alamat kandidat adalah `https://orang2-bu.github.io/SOPia/`; URL aktual harus diverifikasi dari deployment. Kebutuhan backend aktif tetap sama.
+Tetapkan API base URL pada waktu build, lalu uji aset, navigasi, refresh halaman, dan dua alur dari URL Pages. URL aktif adalah `https://orang2-bu.github.io/SOPia/`; kebutuhan backend aktif tetap sama.
 
 ## 10. Kriteria prototype selesai
 
@@ -135,6 +131,4 @@ Tetapkan API base URL pada waktu build, lalu uji aset, navigasi, refresh halaman
 
 Diakses 18 Oktober 2026; periksa kembali saat deploy:
 
-- [Python runtime Vercel](https://vercel.com/docs/functions/runtimes/python).
-- [SQLite pada Vercel](https://vercel.com/kb/guide/is-sqlite-supported-in-vercel).
 - [GitHub Pages sebagai hosting statis](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).

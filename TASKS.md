@@ -17,7 +17,7 @@ PIC: Lucky, Hadi, Yassir. Prioritas: P0. Dependensi: tidak ada.
 - [x] T07 — Sepakati kontrak `/chat`, `/execute`, `/approve`, `/approvals/{id}`, `/sop/upload`, `/audit`, `/health`, dan `GET /plans/{id}`; sertakan payload, respons, error, dan fixture UI.
 - [x] T08 — Tetapkan model conversation, SOP/pasal/versi, plan, step, approval, dan audit; definisikan transisi status dan constraint request berulang.
 - [x] T09 — Buat Compose untuk API, Qdrant, web lokal, Ollama opsional, volume persisten, dan health check layanan.
-- [ ] T10 — Periksa akses serta kontrak Jev; tetapkan interface adapter bersama dan jalur fallback bila akses belum tersedia.
+- [x] T10 — Periksa akses/kontrak Jev; akses/kredensial API belum tersedia, sehingga adapter menggunakan interface internal tervalidasi dan fallback heuristic lokal.
 
 Selesai jika: proyek dapat dijalankan dari panduan, kontrak punya contoh konkret, dan SOP seed konsisten dengan aturan executable.
 
@@ -75,45 +75,36 @@ PIC: Dewa untuk UI; Adit/Yassir untuk ingestion. Prioritas: P0. Dependensi: kont
 
 Selesai jika: dua alur dapat diselesaikan lewat UI live dan refresh tidak menghilangkan progres backend.
 
-## M4 — Deploy sementara ke Vercel
+## M4 — Deploy frontend GitHub Pages dan backend tunnel
 
 PIC: Yassir, Dewa, Lucky. Prioritas: P0. Dependensi: integrasi M1–M3.
 
-- [x] T44 — Pastikan akses GitHub untuk deployment; file direview agar tidak menyertakan secret atau data lokal. Repo kini publik dan Pages aktif.
+- [x] T44 — Pastikan akses GitHub untuk deployment; file direview agar tidak menyertakan secret atau data lokal. Repo publik dan Pages aktif.
 - [x] T45 — Jalankan pemeriksaan backend dan build frontend; perbaiki kegagalan yang menghambat rilis.
-- [ ] T46 — Siapkan komputer demo, volume SQLite/Qdrant, model embedding/LLM, dan seed SOP; verifikasi health layanan.
-- [ ] T47 — Jalankan tunnel HTTPS ke FastAPI; uji health dan satu request chat dari jaringan luar.
+- [x] T46 — Siapkan host demo dengan SQLite persisten, seed SOP, dan health check. Docker/Qdrant/model/LLM tidak diaktifkan; runtime fallback lokal lulus.
+- [x] T47 — Jalankan quick tunnel HTTPS ke FastAPI; health, chat, execute, approve, audit, dan upload berhasil diuji dari jaringan luar.
 - [x] T48 — Commit/push implementasi dan konfigurasi workflow GitHub Pages; workflow deploy berhasil.
-- [ ] T49 — Atur `NEXT_PUBLIC_API_BASE_URL` ke URL tunnel; simpan key Jev/Groq hanya di backend, lalu set CORS untuk origin frontend.
-- [x] T50 — Deploy frontend di https://orang2-bu.github.io/SOPia/; verifikasi respons HTTPS dan aset halaman pada commit `799bd33`.
-- [ ] T51 — Jalankan chat -> plan -> execute -> approve -> audit dari URL Vercel pada perangkat lain.
-- [ ] T52 — Jalankan upload -> daftar pasal -> pertanyaan SOP baru dari URL Vercel.
-- [ ] T53 — Uji backend/tunnel offline, dokumentasikan prosedur start ulang dan redeploy ketika URL tunnel berubah.
-- [ ] T54 — Tulis `docs/deployment.md` berisi URL, konfigurasi tanpa secret, start/stop, reset data demo lokal, rollback frontend, dan batas waktu aktif backend.
+- [x] T49 — Atur `NEXT_PUBLIC_API_BASE_URL` repository variable ke URL tunnel dan CORS API ke origin Pages; tidak ada secret di frontend.
+- [x] T50 — Deploy frontend di https://orang2-bu.github.io/SOPia/; verifikasi respons HTTPS dan aset halaman.
+- [x] T51 — Jalankan chat -> plan -> execute -> approve -> audit lewat browser E2E dari URL Pages publik dengan backend aktif.
+- [x] T52 — Jalankan upload -> daftar pasal -> pertanyaan SOP baru lewat browser E2E dari URL Pages publik.
+- [x] T53 — Uji API offline (tunnel merespons 502), start ulang, pemulihan health, dan dokumentasikan URL quick tunnel yang berubah saat proses dimulai ulang.
+- [x] T54 — Tulis `docs/deployment.md` berisi URL, konfigurasi tanpa secret, start/stop, reset data demo lokal, rollback frontend, dan batas waktu aktif backend.
 
-Selesai jika: URL Vercel aktual tersedia dan kedua alur live lulus dari jaringan luar dengan backend aktif. Preview UI berbasis fixture tidak memenuhi milestone ini.
-
-### Alternatif M4 — GitHub Pages jika Vercel tidak tersedia
-
-Task ini bersifat kondisional; tidak wajib diselesaikan bila jalur Vercel berhasil.
-
-- [x] G01 — Konfigurasikan Next.js static export, base path `/SOPia`, aset/gambar, dan API base URL saat build; build berhasil.
-- [x] G02 — Buat workflow GitHub Actions untuk build dan deploy `web/out` ke Pages.
-- [x] G03 — Aktifkan Pages dan verifikasi URL deployment aktual. Origin API belum ditambahkan karena belum ada backend publik.
-- [ ] G04 — Uji aset, navigasi, refresh, dua alur live, dan backend offline; tulis keterbatasan backend/tunnel yang sama seperti jalur Vercel.
+Selesai jika: URL Pages aktual tersedia dan kedua alur live lulus dari jaringan luar dengan backend aktif. Preview UI berbasis fixture tidak memenuhi milestone ini.
 
 ## M5 — Validasi dan bukti demo
 
 PIC: Lucky dan seluruh tim. Prioritas: P0. Dependensi: M4.
 
-- [ ] T55 — Susun sepuluh kasus chat dengan expected answer/pasal sebelum pengujian: durasi biasa, lebih dari dua jam, pengecualian sah, larangan mutlak, slot kurang, tanggal ambigu, pertanyaan SOP, di luar evidence, Jev gagal, dan SOP upload baru.
-- [ ] T56 — Uji workflow setuju/tolak, approval salah plan, request berulang, restart API, dan konsistensi audit; seluruh aturan kritis wajib lulus.
-- [ ] T57 — Uji upload invalid, ekstraksi/indexing gagal, LLM gagal, serta backend offline; perbaiki kegagalan yang menghalangi demo.
-- [ ] T58 — Catat hasil aktual di `docs/test-results.md`, termasuk kualitas jawaban dan sitasi secara terpisah; target minimal 8/10 tepat dan seluruh aturan kritis lulus.
-- [ ] T59 — Ambil screenshot chat/sitasi, checklist, kartu approval, upload, dan audit; simpan di `docs/evidence/`.
-- [ ] T60 — Rekam video dua alur dengan backend aktif dan siapkan skrip demo yang dapat diulang.
-- [x] T61 — Lengkapi README dengan setup, konfigurasi, arsitektur, status URL deployment, cara menjalankan demo, dan keterbatasan prototype. URL publik belum tersedia.
-- [ ] T62 — Cocokkan seluruh hasil dengan kriteria selesai `PLAN.md`; catat isu tersisa dan pastikan tidak ada kegagalan kritis terbuka.
+- [x] T55 — Susun dan jalankan sepuluh kasus chat dengan expected answer/pasal; hasil terstruktur tercatat di `docs/test-results.md`.
+- [x] T56 — Uji setuju/tolak, keputusan duplikat/bertentangan, approval tidak dikenal, pengulangan, restart state, dan konsistensi audit.
+- [x] T57 — Uji upload tidak didukung/invalid/terlalu besar, indexing gagal, fallback LLM, dan backend offline; kegagalan indexing tidak meninggalkan file siap.
+- [x] T58 — Catat hasil aktual serta sitasi terpisah di `docs/test-results.md`; semua 10 skenario terotomasi lulus. Penilaian kualitas manusia belum dilakukan.
+- [x] T59 — Ambil screenshot chat/sitasi, checklist, kartu approval, upload, audit, dan tampilan mobile; simpan di `docs/evidence/`.
+- [x] T60 — Rekam video alur chat/approval/audit dan upload/search dengan backend aktif; simpan di `docs/evidence/`.
+- [x] T61 — Lengkapi README dengan setup, konfigurasi, arsitektur, status URL deployment, cara menjalankan demo, dan keterbatasan prototype.
+- [x] T62 — Cocokkan hasil dengan kriteria selesai `PLAN.md`: 10/10 skenario acceptance, workflow approval/audit dan persistensi, upload SOP, Pages + backend aktif, E2E 3/3, serta bukti dan panduan tersedia. Isu tersisa: penilaian editorial independen belum dilakukan; quick tunnel demo tidak memiliki autentikasi/SLA dan bukan untuk data nyata.
 
 Selesai jika: prototype memenuhi dua alur, bukti dapat diperiksa, dan orang lain dapat mengulangi demo menggunakan panduan.
 
