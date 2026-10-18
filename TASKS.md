@@ -25,16 +25,16 @@ Selesai jika: proyek dapat dijalankan dari panduan, kontrak punya contoh konkret
 
 PIC: Adit, Hadi. Prioritas: P0. Dependensi: M0.
 
-- [ ] T11 — Implementasikan pemisahan pasal dengan metadata `sop_id`, versi, `pasal_id`, judul, dan teks sumber.
+- [x] T11 — Implementasikan pemisahan pasal dengan metadata `sop_id`, versi, `pasal_id`, judul, dan teks sumber.
 - [ ] T12 — Implementasikan multilingual-e5 dengan format input query/passage yang sesuai model; tetapkan dimensi dan konfigurasi collection Qdrant.
-- [ ] T13 — Buat seed/indexing yang aman dijalankan ulang tanpa menggandakan pasal.
-- [ ] T14 — Implementasikan pencarian top-3, skor, sitasi, filter sumber, serta penanganan evidence yang tidak cukup relevan.
-- [ ] T15 — Implementasikan adapter Jev dengan timeout, validasi output, dan metadata provider; jangan mengarang bentuk API sebelum kontraknya tersedia.
-- [ ] T16 — Implementasikan heuristic lokal dengan interface yang sama untuk intent, slot, rencana, dan penilaian; aktifkan saat Jev gagal/tidak tersedia.
+- [x] T13 — Buat seed/indexing yang aman dijalankan ulang tanpa menggandakan pasal.
+- [x] T14 — Implementasikan pencarian top-3, skor, sitasi, filter sumber, serta penanganan evidence yang tidak cukup relevan.
+- [x] T15 — Implementasikan adapter Jev dengan timeout, validasi output, dan metadata provider; jangan mengarang bentuk API sebelum kontraknya tersedia.
+- [x] T16 — Implementasikan heuristic lokal dengan interface yang sama untuk intent, slot, rencana, dan penilaian; aktifkan saat Jev gagal/tidak tersedia.
 - [ ] T17 — Implementasikan `conversation_id`, penyimpanan slot, dan pertanyaan klarifikasi untuk informasi wajib yang kurang atau ambigu.
-- [ ] T18 — Buat planner yang menghubungkan setiap step ke pasal dan mode `auto`/`butuh_persetujuan`; simpan plan beserta evidence yang dipakai.
+- [x] T18 — Buat planner yang menghubungkan setiap step ke pasal dan mode `auto`/`butuh_persetujuan`; simpan plan beserta evidence yang dipakai.
 - [ ] T19 — Implementasikan checker deterministik dari config yang cocok dengan SOP; larangan wajib tetap berlaku setelah approval.
-- [ ] T20 — Buat verbalisasi Ollama dengan opsi Groq; kunci input ke keputusan/evidence, validasi referensi sitasi, dan sediakan template saat LLM gagal.
+- [x] T20 — Buat verbalisasi Ollama dengan opsi Groq; kunci input ke keputusan/evidence, validasi referensi sitasi, dan sediakan template saat LLM gagal.
 - [ ] T21 — Hubungkan `/chat` ke alur lengkap dan kembalikan jawaban, sitasi, informasi kurang, serta plan yang siap dieksekusi bila valid.
 
 Selesai jika: pertanyaan seed mendapat sitasi nyata, klarifikasi mempertahankan konteks, dan chat tetap berfungsi saat Jev tidak tersedia.
