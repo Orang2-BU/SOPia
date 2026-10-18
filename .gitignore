@@ -12,6 +12,7 @@ venv/
 *.db
 *.sqlite3
 data/uploads/
+/api/data/uploads/
 
 # Node / Next.js
 node_modules/
@@ -24,4 +25,3 @@ dist/
 .idea/
 *.log
 coverage/
-
