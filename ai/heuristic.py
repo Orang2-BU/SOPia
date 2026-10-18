@@ -36,7 +36,8 @@ def _parse_dates(text: str) -> tuple[str, str] | None:
             return None
 
     text = text.replace("–", "-").replace("—", "-")
-    year_default = os.getenv("SOPIA_DEFAULT_YEAR")
+    year_hint = re.search(r"\b(20\d{2})\b", text)
+    year_default = os.getenv("SOPIA_DEFAULT_YEAR") or (year_hint.group(1) if year_hint else None)
 
     # 20-22 Okt, or 20 Okt-22 Okt. The month can be written in Indonesian or English.
     range_patterns = (

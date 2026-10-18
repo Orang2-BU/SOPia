@@ -44,7 +44,7 @@ def _embedding_model() -> Any:
         _model_checked = True
         try:
             from sentence_transformers import SentenceTransformer  # type: ignore[import-not-found]
-            _model = SentenceTransformer(MODEL_NAME, local_files_only=True)
+            _model = SentenceTransformer(MODEL_NAME, local_files_only=os.getenv("SOPIA_E5_LOCAL_ONLY", "1") != "0")
         except Exception:
             _model = None
     return _model

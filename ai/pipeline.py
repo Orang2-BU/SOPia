@@ -31,11 +31,14 @@ def create_plan(analysis: dict[str, Any], evidence: list[dict[str, Any]]) -> dic
     citations = [{key: item.get(key) for key in ("sop_id", "version", "pasal_id", "title", "text", "score")
                   if key in item} for item in evidence]
     mode = "butuh_persetujuan" if hint["decision"] == "needs_approval" else "auto"
+    by_reference = {str(item.get("pasal_id")): item for item in citations}
+    request_rule = by_reference.get("SOP-LEMBUR-04" if mode == "butuh_persetujuan" else "SOP-LEMBUR-03")
+    validation_rule = by_reference.get("SOP-LEMBUR-02") or by_reference.get("SOP-LEMBUR-01")
     steps = [
         {"id": "validate_request", "label": "Validasi pengajuan lembur", "mode": "auto",
-         "pasal_ref": citations[0] if citations else None, "citations": citations},
+         "pasal_ref": validation_rule or (citations[0] if citations else None), "citations": citations},
         {"id": "submit_request", "label": "Kirim pengajuan (simulasi)", "mode": mode,
-         "pasal_ref": citations[0] if citations else None, "citations": citations},
+         "pasal_ref": request_rule or (citations[0] if citations else None), "citations": citations},
     ]
     return {"status": "ready", "steps": steps, "missing": [], "provider": hint["provider"]}
 

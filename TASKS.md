@@ -8,15 +8,15 @@ Urutan: M0 -> M1 -> M2 -> integrasi M3 -> M4 -> M5. Frontend dan upload dapat be
 
 PIC: Lucky, Hadi, Yassir. Prioritas: P0. Dependensi: tidak ada.
 
-- [ ] T01 — Buat struktur `api/`, `ai/`, `web/`, `data/`, `config/`, `docs/`; tetapkan root repo sebagai root proyek.
-- [ ] T02 — Inisialisasi Python 3.12/FastAPI dan Next.js 16/Tailwind; kunci dependensi, runtime, dan perintah menjalankan aplikasi.
+- [x] T01 — Buat struktur `api/`, `ai/`, `web/`, `data/`, `config/`, `docs/`; tetapkan root repo sebagai root proyek.
+- [x] T02 — Inisialisasi Python 3.12/FastAPI dan Next.js 16/Tailwind; kunci dependensi, runtime, dan perintah menjalankan aplikasi.
 - [x] T03 — Buat `.gitignore` dan `.env.example`; abaikan secret, model unduhan, database lokal, cache, dan build output.
 - [x] T04 — Tulis `data/sop-lembur.md` berisi 5–7 pasal fiktif dengan ID stabil, aturan dua jam, persetujuan biasa, serta pengecualian.
 - [x] T05 — Buat `config/approval-matrix.yaml`; bedakan aturan wajib, persetujuan biasa, dan persetujuan pengecualian. Cocokkan dengan setiap pasal seed.
-- [ ] T06 — Dokumentasikan field pengajuan, satuan durasi per orang per hari, konteks percakapan, tanggal lengkap, dan perilaku saat data kurang.
-- [ ] T07 — Sepakati kontrak `/chat`, `/execute`, `/approve`, `/approvals/{id}`, `/sop/upload`, `/audit`, `/health`, dan `GET /plans/{id}`; sertakan payload, respons, error, dan fixture UI.
-- [ ] T08 — Tetapkan model conversation, SOP/pasal/versi, plan, step, approval, dan audit; definisikan transisi status dan constraint request berulang.
-- [ ] T09 — Buat Compose untuk API, Qdrant, web lokal, Ollama opsional, volume persisten, dan health check layanan.
+- [x] T06 — Dokumentasikan field pengajuan, satuan durasi per orang per hari, konteks percakapan, tanggal lengkap, dan perilaku saat data kurang.
+- [x] T07 — Sepakati kontrak `/chat`, `/execute`, `/approve`, `/approvals/{id}`, `/sop/upload`, `/audit`, `/health`, dan `GET /plans/{id}`; sertakan payload, respons, error, dan fixture UI.
+- [x] T08 — Tetapkan model conversation, SOP/pasal/versi, plan, step, approval, dan audit; definisikan transisi status dan constraint request berulang.
+- [x] T09 — Buat Compose untuk API, Qdrant, web lokal, Ollama opsional, volume persisten, dan health check layanan.
 - [ ] T10 — Periksa akses serta kontrak Jev; tetapkan interface adapter bersama dan jalur fallback bila akses belum tersedia.
 
 Selesai jika: proyek dapat dijalankan dari panduan, kontrak punya contoh konkret, dan SOP seed konsisten dengan aturan executable.
@@ -26,16 +26,16 @@ Selesai jika: proyek dapat dijalankan dari panduan, kontrak punya contoh konkret
 PIC: Adit, Hadi. Prioritas: P0. Dependensi: M0.
 
 - [x] T11 — Implementasikan pemisahan pasal dengan metadata `sop_id`, versi, `pasal_id`, judul, dan teks sumber.
-- [ ] T12 — Implementasikan multilingual-e5 dengan format input query/passage yang sesuai model; tetapkan dimensi dan konfigurasi collection Qdrant.
+- [x] T12 — Implementasikan multilingual-e5 dengan format input query/passage yang sesuai model; tetapkan dimensi dan konfigurasi collection Qdrant.
 - [x] T13 — Buat seed/indexing yang aman dijalankan ulang tanpa menggandakan pasal.
 - [x] T14 — Implementasikan pencarian top-3, skor, sitasi, filter sumber, serta penanganan evidence yang tidak cukup relevan.
 - [x] T15 — Implementasikan adapter Jev dengan timeout, validasi output, dan metadata provider; jangan mengarang bentuk API sebelum kontraknya tersedia.
 - [x] T16 — Implementasikan heuristic lokal dengan interface yang sama untuk intent, slot, rencana, dan penilaian; aktifkan saat Jev gagal/tidak tersedia.
-- [ ] T17 — Implementasikan `conversation_id`, penyimpanan slot, dan pertanyaan klarifikasi untuk informasi wajib yang kurang atau ambigu.
+- [x] T17 — Implementasikan `conversation_id`, penyimpanan slot, dan pertanyaan klarifikasi untuk informasi wajib yang kurang atau ambigu.
 - [x] T18 — Buat planner yang menghubungkan setiap step ke pasal dan mode `auto`/`butuh_persetujuan`; simpan plan beserta evidence yang dipakai.
-- [ ] T19 — Implementasikan checker deterministik dari config yang cocok dengan SOP; larangan wajib tetap berlaku setelah approval.
+- [x] T19 — Implementasikan checker deterministik dari config yang cocok dengan SOP; larangan wajib tetap berlaku setelah approval.
 - [x] T20 — Buat verbalisasi Ollama dengan opsi Groq; kunci input ke keputusan/evidence, validasi referensi sitasi, dan sediakan template saat LLM gagal.
-- [ ] T21 — Hubungkan `/chat` ke alur lengkap dan kembalikan jawaban, sitasi, informasi kurang, serta plan yang siap dieksekusi bila valid.
+- [x] T21 — Hubungkan `/chat` ke alur lengkap dan kembalikan jawaban, sitasi, informasi kurang, serta plan yang siap dieksekusi bila valid.
 
 Selesai jika: pertanyaan seed mendapat sitasi nyata, klarifikasi mempertahankan konteks, dan chat tetap berfungsi saat Jev tidak tersedia.
 
@@ -43,16 +43,16 @@ Selesai jika: pertanyaan seed mendapat sitasi nyata, klarifikasi mempertahankan 
 
 PIC: Hadi. Prioritas: P0. Dependensi: model M0 dan plan M1.
 
-- [ ] T22 — Implementasikan penyimpanan SQLite, inisialisasi skema, transaksi, dan pemulihan state setelah restart.
-- [ ] T23 — Implementasikan state machine plan/step dengan status pending, running, waiting approval, completed, rejected, dan failed sesuai kontrak.
-- [ ] T24 — Implementasikan `/execute` untuk memvalidasi prasyarat dan menjalankan langkah otomatis hingga selesai atau menunggu.
-- [ ] T25 — Buat approval terikat pada plan/step yang benar; simpan alasan, pasal, dan aktor simulasi yang dibutuhkan.
-- [ ] T26 — Implementasikan `/approve`: setuju melanjutkan langkah berikutnya, tolak menghentikan plan; validasi status dan kaitan approval.
-- [ ] T27 — Cegah tindakan ganda pada execute/approve berulang atau bersamaan melalui transaksi dan constraint penyimpanan.
-- [ ] T28 — Periksa aturan sebelum tindakan dan hasil setelah tindakan; kegagalan menahan langkah berikutnya.
-- [ ] T29 — Simulasikan pengiriman ke sistem eksternal dengan output yang jelas dan label simulasi.
-- [ ] T30 — Simpan audit timestamp, aktor simulasi, aksi, hasil/alasan, provider keputusan, plan/step/approval, dan referensi pasal/versi.
-- [ ] T31 — Implementasikan pembacaan status plan/approval dan daftar audit yang dapat difilter untuk plan aktif.
+- [x] T22 — Implementasikan penyimpanan SQLite, inisialisasi skema, transaksi, dan pemulihan state setelah restart.
+- [x] T23 — Implementasikan state machine plan/step dengan status pending, running, waiting approval, completed, rejected, dan failed sesuai kontrak.
+- [x] T24 — Implementasikan `/execute` untuk memvalidasi prasyarat dan menjalankan langkah otomatis hingga selesai atau menunggu.
+- [x] T25 — Buat approval terikat pada plan/step yang benar; simpan alasan, pasal, dan aktor simulasi yang dibutuhkan.
+- [x] T26 — Implementasikan `/approve`: setuju melanjutkan langkah berikutnya, tolak menghentikan plan; validasi status dan kaitan approval.
+- [x] T27 — Cegah tindakan ganda pada execute/approve berulang atau bersamaan melalui transaksi dan constraint penyimpanan.
+- [x] T28 — Periksa aturan sebelum tindakan dan hasil setelah tindakan; kegagalan menahan langkah berikutnya.
+- [x] T29 — Simulasikan pengiriman ke sistem eksternal dengan output yang jelas dan label simulasi.
+- [x] T30 — Simpan audit timestamp, aktor simulasi, aksi, hasil/alasan, provider keputusan, plan/step/approval, dan referensi pasal/versi.
+- [x] T31 — Implementasikan pembacaan status plan/approval dan daftar audit yang dapat difilter untuk plan aktif.
 
 Selesai jika: kasus auto, tunggu, setuju, tolak, dan pengulangan request berjalan sesuai aturan; state serta audit bertahan setelah restart.
 
@@ -60,18 +60,18 @@ Selesai jika: kasus auto, tunggu, setuju, tolak, dan pengulangan request berjala
 
 PIC: Dewa untuk UI; Adit/Yassir untuk ingestion. Prioritas: P0. Dependensi: kontrak M0; integrasi akhir membutuhkan M1/M2.
 
-- [ ] T32 — Buat layout chat, navigasi upload/audit, input pesan, indikator proses, dan tampilan error yang dapat dipahami.
-- [ ] T33 — Tampilkan sitasi dengan judul SOP, versi, ID pasal, dan teks sumber yang dapat dibuka.
-- [ ] T34 — Tampilkan informasi yang perlu dilengkapi, checklist rencana, tombol jalankan, serta status setiap langkah.
-- [ ] T35 — Buat kartu persetujuan dengan alasan, pasal, identitas simulasi, setuju/tolak; tampilkan bahwa approval menggunakan simulasi.
-- [ ] T36 — Simpan referensi conversation/plan di browser, ambil ulang state dari backend saat refresh, dan polling hanya selama proses aktif.
-- [ ] T37 — Buat tampilan audit untuk plan aktif dan hasil simulasi eksekusi.
-- [ ] T38 — Implementasikan upload `.txt`/`.md` dengan batas ukuran eksplisit, pemeriksaan encoding/isi, dan error format tidak didukung.
-- [ ] T39 — Ekstrak pasal ke JSON terstruktur, validasi ID/teks sumber, simpan metadata SOP/versi, lalu index ke Qdrant.
-- [ ] T40 — Beri status upload/indexing yang akurat; cegah dokumen gagal atau belum selesai dianggap siap dicari.
-- [ ] T41 — Tampilkan daftar pasal hasil upload dan verifikasi pertanyaan baru mengambil evidence dari dokumen tersebut.
-- [ ] T42 — Hubungkan UI ke API live; tampilkan keadaan loading, kosong, penolakan, input kurang, dan backend offline.
-- [ ] T43 — Tinjau tampilan mobile/desktop, label input, navigasi keyboard, serta pencegahan klik ganda ketika request berjalan.
+- [x] T32 — Buat layout chat, navigasi upload/audit, input pesan, indikator proses, dan tampilan error yang dapat dipahami.
+- [x] T33 — Tampilkan sitasi dengan judul SOP, versi, ID pasal, dan teks sumber yang dapat dibuka.
+- [x] T34 — Tampilkan informasi yang perlu dilengkapi, checklist rencana, tombol jalankan, serta status setiap langkah.
+- [x] T35 — Buat kartu persetujuan dengan alasan, pasal, identitas simulasi, setuju/tolak; tampilkan bahwa approval menggunakan simulasi.
+- [x] T36 — Simpan referensi conversation/plan di browser, ambil ulang state dari backend saat refresh, dan polling hanya selama proses aktif.
+- [x] T37 — Buat tampilan audit untuk plan aktif dan hasil simulasi eksekusi.
+- [x] T38 — Implementasikan upload `.txt`/`.md` dengan batas ukuran eksplisit, pemeriksaan encoding/isi, dan error format tidak didukung.
+- [x] T39 — Ekstrak pasal ke JSON terstruktur, validasi ID/teks sumber, simpan metadata SOP/versi, lalu index ke Qdrant.
+- [x] T40 — Beri status upload/indexing yang akurat; cegah dokumen gagal atau belum selesai dianggap siap dicari.
+- [x] T41 — Tampilkan daftar pasal hasil upload dan verifikasi pertanyaan baru mengambil evidence dari dokumen tersebut.
+- [x] T42 — Hubungkan UI ke API live; tampilkan keadaan loading, kosong, penolakan, input kurang, dan backend offline.
+- [x] T43 — Tinjau tampilan mobile/desktop, label input, navigasi keyboard, serta pencegahan klik ganda ketika request berjalan.
 
 Selesai jika: dua alur dapat diselesaikan lewat UI live dan refresh tidak menghilangkan progres backend.
 
@@ -80,10 +80,10 @@ Selesai jika: dua alur dapat diselesaikan lewat UI live dan refresh tidak menghi
 PIC: Yassir, Dewa, Lucky. Prioritas: P0. Dependensi: integrasi M1–M3.
 
 - [ ] T44 — Pastikan akses GitHub/Vercel untuk deployment; review file yang akan masuk repo agar tidak menyertakan secret atau data lokal.
-- [ ] T45 — Jalankan pemeriksaan backend dan build frontend; perbaiki kegagalan yang menghambat rilis.
+- [x] T45 — Jalankan pemeriksaan backend dan build frontend; perbaiki kegagalan yang menghambat rilis.
 - [ ] T46 — Siapkan komputer demo, volume SQLite/Qdrant, model embedding/LLM, dan seed SOP; verifikasi health layanan.
 - [ ] T47 — Jalankan tunnel HTTPS ke FastAPI; uji health dan satu request chat dari jaringan luar.
-- [ ] T48 — Commit/push implementasi sesuai workflow repo dan hubungkan `Orang2-BU/SOPia` ke Vercel dengan Root Directory `web`.
+- [ ] T48 — Commit/push implementasi sesuai workflow repo; konfigurasi workflow GitHub Pages pada repo `Orang2-BU/SOPia`.
 - [ ] T49 — Atur `NEXT_PUBLIC_API_BASE_URL` ke URL tunnel; simpan key Jev/Groq hanya di backend, lalu set CORS untuk origin frontend.
 - [ ] T50 — Deploy frontend dan catat URL aktual serta commit rilis; verifikasi respons HTTPS dan aset halaman.
 - [ ] T51 — Jalankan chat -> plan -> execute -> approve -> audit dari URL Vercel pada perangkat lain.
