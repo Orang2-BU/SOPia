@@ -50,9 +50,11 @@ class PrototypeAcceptanceTests(unittest.TestCase):
         result = self.client.post("/execute", json={"plan_id": chat["plan"]["id"]}).json()
         self.assertEqual(result["status"], "completed")
         self.assertEqual(chat["citations"][0]["pasal_id"], "SOP-LEMBUR-03")
+        self.assertEqual(chat["plan"]["steps"][0]["pasal_ref"]["pasal_id"], "SOP-LEMBUR-02")
 
     def test_02_three_hours_waits_for_explicit_approval(self) -> None:
         chat = self.ask(self.request(3))
+        self.assertEqual(chat["plan"]["steps"][0]["pasal_ref"]["pasal_id"], "SOP-LEMBUR-02")
         result = self.client.post("/execute", json={"plan_id": chat["plan"]["id"]}).json()
         self.assertEqual(result["status"], "waiting_approval")
         self.assertEqual(result["plan"]["approval"]["status"], "pending")

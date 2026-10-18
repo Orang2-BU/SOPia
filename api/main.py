@@ -316,7 +316,12 @@ def chat(payload: ChatRequest) -> dict[str, Any]:
         rule_evidence = search_passages(expected_rule, limit=1)
         if rule_evidence:
             primary = rule_evidence[0]
-            citations = [primary, *[item for item in evidence if item.get("pasal_id") != expected_rule]][:3]
+            supporting = search_passages("SOP-LEMBUR-02", limit=1) or search_passages("SOP-LEMBUR-01", limit=1)
+            citations = [primary]
+            if supporting and supporting[0].get("pasal_id") != expected_rule:
+                citations.append(supporting[0])
+            citations.extend(item for item in evidence if item.get("pasal_id") not in {expected_rule, (supporting[0].get("pasal_id") if supporting else None)})
+            citations = citations[:3]
             evidence = citations
         if slots["hours_per_person_per_day"] > MAX_OVERTIME_HOURS_PER_DAY:
             rule_citation = next((item for item in citations
